@@ -68,15 +68,19 @@ Here’s how I did it, explained simply:
    wireshark saved.pcap
    ```
 2. I typed `icmp` in the filter bar and pressed Enter to see only the ping packets.
+   
    ![pcap_file](screenshots/pcap_file.png)
    
 3. I picked a packet where the source was `192.168.56.128` (Kali 2) and the destination was `192.168.56.102` (Kali 3). When I expanded the "Ethernet II" section (Layer 2 of the OSI model - Data Link Layer), the destination MAC was `08:00:27:b4:a1:05` which = Kali 1’s MAC! This means the packet was sent to Kali 1 instead of directly to Kali 3, proving redirection.
+   
    ![packet](screenshots/packet.png)
    
 4. I checked `Statistics > Conversations`, clicked the "Ethernet II" tab, and noticed that the source MAC addresses (Address A) for Kali 2 and 3 were right but the destination MAC address was that of Kali 1. This clearly shows ARP spoofing!
+ 
    ![statistics](screenshots/statistics.png)
    
-6. In the Ethernet section of several packets, I noticed the source or destination MAC was `08:00:27:b4:a1:05` (Kali 1’s MAC). This confirms Kali 1 was in the middle therefore when a ping request from Kali 2 to Kali 3 is sent, it's redirected through Kali 1 and when the request reaches Kali 3, Kali 1 becomes the source. Simple, right?
+5. In the Ethernet section of several packets, I noticed the source or destination MAC was `08:00:27:b4:a1:05` (Kali 1’s MAC). This confirms Kali 1 was in the middle therefore when a ping request from Kali 2 to Kali 3 is sent, it's redirected through Kali 1 and when the request reaches Kali 3, Kali 1 becomes the source. Simple, right?
+ 
    ![redirection](screenshots/redirection.png)
 
 This is just to show that the ping packets didn’t go straight from Kali 2 to Kali 3 nor from Kali 3 to Kali 2...they went through Kali 1 because of the ARP spoofing!
